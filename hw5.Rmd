@@ -1,0 +1,41 @@
+---
+title: "2016 Election"
+author: "Landon"
+date: "08/03/2022"
+output: html_document
+---
+
+## R Libraries
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries, cache = TRUE, eval=TRUE}
+library(maps)
+library(mapdata)
+library(ggplot2)
+```
+
+``` {r prep}
+setwd("")
+load("wind_turbines.rda")
+
+states <- map_data("state")
+cali <- states[states$region == "california",]
+wind_ca <- wind_turbines[wind_turbines$t_state == "CA",]
+```
+
+```{r statemapWCalifornia, echo=TRUE, eval=TRUE}
+
+ggplot(cali, aes(long, lat)) +
+  geom_polygon(fill="orange", color="black") +
+  coord_map("sinusoidal") +
+  geom_point(
+    data = wind_ca,
+    aes(x = xlong, y = ylat),
+    size = 1.5,
+    color = "purple", stroke = 0.5
+  )
+
+```
